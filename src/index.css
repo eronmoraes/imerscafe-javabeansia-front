@@ -1,0 +1,60 @@
+body { 
+  background: radial-gradient(circle, #8b2b25 0%, #4a1511 100%); /* O vermelho escuro do vídeo */
+  min-height: 100vh; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-family: 'Courier New', Courier, monospace; /* Trazendo a vibe de sistema antigo/Swing */
+  color: #333;
+  margin: 0;
+}
+
+.simulador-card { 
+  border: 2px solid #a0a0a0; 
+  border-radius: 5px; 
+  box-shadow: 5px 5px 15px rgba(0,0,0,0.6); 
+  width: 100%; 
+  max-width: 650px; 
+  background-color: #e0e0e0; /* O cinza das janelas do Java */
+  overflow: hidden; 
+}
+
+.header { 
+  background: #a0a0a0; 
+  color: #333; 
+  padding: 10px 20px; 
+  border-bottom: 2px solid #fff;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+}
+
+.body-p { padding: 30px; background: #fff; }
+
+/* Botões baseados no seu vídeo */
+.btn-swing { border-radius: 0; font-weight: bold; border: 2px solid #555; text-transform: uppercase; }
+.btn-blue { background: #3498db; color: white; }
+.btn-blue:hover { background: #2980b9; color: white; }
+.btn-green { background: #2ecc71; color: white; }
+.btn-green:hover { background: #27ae60; color: white; }
+.btn-red { background: #e74c3c; color: white; }
+.btn-red:hover { background: #c0392b; color: white; }
+
+.painel-vermelho {
+  background: #8b2b25;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  border: 2px solid #4a1511;
+  margin-bottom: 20px;
+}
+
+.console-box {
+  background: #1e1e1e;
+  color: #00ff00;
+  padding: 15px;
+  font-family: monospace;
+  text-align: left;
+  border-radius: 5px;
+  white-space: pre-wrap;
+}
