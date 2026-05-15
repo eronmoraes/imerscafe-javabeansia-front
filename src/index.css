@@ -1,3 +1,60 @@
+/* --- MODERN COZY IA CARD --- */
+.ia-feedback-container {
+  perspective: 1000px;
+}
+
+.ia-feedback-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 24px;
+  padding: 2rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ia-feedback-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 
+              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.ia-status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  background: #f1f5f9;
+  color: #64748b;
+  border-radius: 100px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.ia-pulse-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #3b82f6;
+  border-radius: 50%;
+  margin-right: 8px;
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+}
+
+.ia-feedback-text {
+  color: #334155;
+  font-size: 1.1rem;
+  line-height: 1.7;
+  font-weight: 500;
+}
+/* ...código existente do projeto... */
 body { 
   background: radial-gradient(circle, #8b2b25 0%, #4a1511 100%); /* O vermelho escuro do vídeo */
   min-height: 100vh; 

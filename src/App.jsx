@@ -22,6 +22,7 @@ function App() {
 
   const [falaRegistrada, setFalaRegistrada] = useState('');
   const [ultimaBebidaPreparada, setUltimaBebidaPreparada] = useState('');
+  const [avaliacaoSoftSkill, setAvaliacaoSoftSkill] = useState(null);
 
   const testarBackend = async () => {
     setTela('diagnostico');
@@ -52,17 +53,45 @@ function App() {
       return alert('Digite seu nome!');
     }
 
+    // Envia nomeBarista para o backend para inicializar sessão
+    try {
+      await fetch(`${API_BASE}/iniciar`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ nomeBarista: nomeBarista.trim() }),
+        credentials: 'include'
+      });
+    } catch (e) {
+      // Se falhar, segue fluxo normal, mas idealmente exibir erro
+    }
+
     await carregarProximoCliente();
     setTela('loading');
     setTimeout(() => setTela('jogo'), 2500);
   };
 
-  const irParaMaquina = () => {
+  const irParaMaquina = async () => {
     if (resposta.trim().length < 3) {
       return alert('Interaja com o cliente antes de preparar o café!');
     }
 
     setFalaRegistrada(resposta.trim());
+    try {
+      const res = await fetch(`${API_BASE}/responder`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(resposta.trim()),
+        credentials: 'include'
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setAvaliacaoSoftSkill(data);
+      } else {
+        setAvaliacaoSoftSkill(null);
+      }
+    } catch (err) {
+      setAvaliacaoSoftSkill(null);
+    }
     setTela('preparar');
   };
 
@@ -90,7 +119,8 @@ function App() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ingredientesEscolhidos: selecionados
+          ingredientesEscolhidos: selecionados,
+          falaBarista: falaRegistrada
         }),
         credentials: 'include'
       });
@@ -99,6 +129,10 @@ function App() {
         const data = await res.json();
         setResultado(data);
         setXpTotal(data.pontuacaoTotal);
+        // Garantir leitura correta do ganho imediato da rodada
+        if (typeof data.pontosNestaRodada !== 'undefined') {
+          // Opcional: pode-se exibir em outro local se necessário
+        }
         setUltimaBebidaPreparada(bebidaDaRodada);
         setBebidaAtual(data.proximoCliente.nomeBebida);
         setTela('resultado');
@@ -130,6 +164,7 @@ function App() {
       </div>
 
       <div className="body-p">
+        {/* TELA INICIAL */}
         {tela === 'inicial' && (
           <div className="text-center">
             <div className="painel-vermelho">
@@ -160,6 +195,7 @@ function App() {
           </div>
         )}
 
+        {/* TELA DIAGNÓSTICO */}
         {tela === 'diagnostico' && (
           <div>
             <h4 className="text-center mb-3">Diagnóstico de Integração</h4>
@@ -254,15 +290,23 @@ function App() {
               </p>
             </div>
 
-            <div
-              className="bg-light border border-dark p-3 mb-3 text-start"
-              style={{ borderRadius: 0 }}
-            >
+            <div className="bg-light border border-dark p-3 mb-3 text-start" style={{ borderRadius: 0 }}>
               <p className="mb-0">
                 <strong>Sua fala ao cliente:</strong>{' '}
                 {falaRegistrada || 'Nenhuma fala registrada.'}
               </p>
             </div>
+
+            {/* Feedback educativo da IA após avaliação soft skill */}
+            {avaliacaoSoftSkill && (
+              <div className="alert alert-info text-start" style={{ borderRadius: 0 }}>
+                <strong>Feedback da IA (Soft Skill):</strong>
+                <div className="mt-1">{avaliacaoSoftSkill.feedbackIA || avaliacaoSoftSkill.feedback || 'Sem feedback.'}</div>
+                {avaliacaoSoftSkill.xpGanho !== undefined && (
+                  <div className="mt-2 small">XP Soft Skill: <strong>+{avaliacaoSoftSkill.xpGanho}</strong></div>
+                )}
+              </div>
+            )}
 
             <p className="mb-2 fw-bold text-center">
               2. Selecione os Ingredientes (Hard Skill):
@@ -368,42 +412,53 @@ function App() {
           </div>
         )}
 
+        {/* TELA RESULTADO */}
         {tela === 'resultado' && resultado && (
           <div className="text-center">
-            <h3 className="mb-3">Avaliação do Cliente</h3>
-
-            <div
-              className="bg-light border border-dark p-3 mb-3 text-start"
-              style={{ borderRadius: 0 }}
-            >
-              <p className="mb-1">
-                <strong>Cliente pediu:</strong> {ultimaBebidaPreparada}
-              </p>
-              <p className="mb-1">
-                <strong>Sua fala:</strong> {falaRegistrada || 'Não registrada.'}
-              </p>
-              <p className="mb-0">
-                <strong>Ingredientes usados:</strong>{' '}
-                {selecionados.join(' + ') || 'Nenhum'}
-              </p>
+            <div className="mb-4">
+              <h1 className={resultado.acertou ? 'text-success display-4 fw-bold' : 'text-danger display-4 fw-bold'}>
+                {resultado.acertou ? '🎉 SUCESSO!' : '❌ RECEITA ERRADA'}
+              </h1>
+              <span className="badge bg-light text-dark border p-2 px-3">+{resultado.pontosNestaRodada} XP ADQUIRIDOS</span>
             </div>
 
-            <h1 className={resultado.acertou ? 'text-success mb-2' : 'text-danger mb-2'}>
-              {resultado.acertou ? '🎉 SUCESSO!' : '❌ RECEITA ERRADA'}
-            </h1>
-
-            <h4 className="mb-3">+{resultado.pontosNestaRodada} XP</h4>
-
-            <div
-              className="alert alert-info text-start border-dark fst-italic"
-              style={{ borderRadius: 0 }}
-            >
-              "{resultado.feedbackIA}"
+            {/* Box Altamente Estilizado (Cozy Flat Design) */}
+            <div className="ia-feedback-container my-5">
+              <div className="ia-feedback-card text-start">
+                <div className="ia-status-badge">
+                  <div className="ia-pulse-dot"></div>
+                  Análise da Inteligência Artificial
+                </div>
+                
+                <div className="d-flex align-items-start gap-3">
+                  <div className="flex-shrink-0 mt-1">
+                    <div className="p-3 bg-primary bg-opacity-10 rounded-4">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="#0d6efd" className="bi bi-chat-left-quote" viewBox="0 0 16 16">
+                        <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                        <path d="M7.066 4.76A1.665 1.665 0 0 0 4 5.668a1.667 1.667 0 0 0 2.561 1.406c-.131.389-.375.804-.777 1.22a.417.417 0 1 0 .6.58c1.486-1.54 1.293-3.214.682-4.112zm4 0A1.665 1.665 0 0 0 8 5.668a1.667 1.667 0 0 0 2.561 1.406c-.131.389-.375.804-.777 1.22a.417.417 0 1 0 .6.58c1.486-1.54 1.293-3.214.682-4.112z"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div className="ia-feedback-text">
+                    {resultado.feedbackIA}
+                  </div>
+                </div>
+                
+                <div className="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
+                   <div className="text-muted small">
+                      <strong>Pedido:</strong> {ultimaBebidaPreparada}
+                   </div>
+                   <div className="text-muted small">
+                      <strong>Barista:</strong> {nomeBarista}
+                   </div>
+                </div>
+              </div>
             </div>
 
             <button
               onClick={atenderProximo}
-              className="btn btn-swing btn-blue w-100 p-3 mt-2"
+              className="btn btn-swing btn-blue w-100 p-3 shadow-sm"
+              style={{ borderRadius: '16px' }}
             >
               Atender Próximo Cliente ➔
             </button>
