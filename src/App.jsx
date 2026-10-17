@@ -301,7 +301,7 @@ function App() {
             {avaliacaoSoftSkill && (
               <div className="alert alert-info text-start" style={{ borderRadius: 0 }}>
                 <strong>Feedback da IA (Soft Skill):</strong>
-                <div className="mt-1">{avaliacaoSoftSkill.feedbackIA || avaliacaoSoftSkill.feedback || 'Sem feedback.'}</div>
+                <div className="mt-1">{avaliacaoSoftSkill.feedbackEducativo || avaliacaoSoftSkill.feedback || 'Sem feedback.'}</div>
                 {avaliacaoSoftSkill.xpGanho !== undefined && (
                   <div className="mt-2 small">XP Soft Skill: <strong>+{avaliacaoSoftSkill.xpGanho}</strong></div>
                 )}
