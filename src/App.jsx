@@ -159,8 +159,11 @@ function App() {
   return (
     <div className="simulador-card">
       <div className="header">
-        <span>☕ Java Beans - {tela.toUpperCase()}</span>
-        <span>Pontuação: {xpTotal}</span>
+        <div className="header-brand">
+          <span className="header-product">☕ Java Beans</span>
+          <span className="header-screen">{tela.toUpperCase()}</span>
+        </div>
+        <span className="header-score">Pontuação: {xpTotal}</span>
       </div>
 
       <div className="body-p">
@@ -312,26 +315,24 @@ function App() {
               2. Selecione os Ingredientes (Hard Skill):
             </p>
 
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: 'repeat(3, 1fr)',
-                gap: '8px',
-                margin: '15px 0'
-              }}
-            >
-              {ingredientesDisponiveis.map((ing) => (
-                <button
-                  key={ing}
-                  onClick={() => toggleIngrediente(ing)}
-                  className={`btn btn-swing ${
-                    selecionados.includes(ing) ? 'btn-green' : 'btn-blue'
-                  }`}
-                  style={{ padding: '10px', fontSize: '0.85rem' }}
-                >
-                  {ing}
-                </button>
-              ))}
+            <div className="ingredientes-grid">
+              {ingredientesDisponiveis.map((ing) => {
+                const selecionado = selecionados.includes(ing);
+
+                return (
+                  <button
+                    key={ing}
+                    type="button"
+                    onClick={() => toggleIngrediente(ing)}
+                    className={`btn btn-swing ingrediente-btn ${
+                      selecionado ? 'btn-green selecionado' : 'btn-blue'
+                    }`}
+                    aria-pressed={selecionado}
+                  >
+                    {ing}
+                  </button>
+                );
+              })}
             </div>
 
             <div className="text-center my-3 p-2 border border-dark bg-light">
@@ -389,18 +390,22 @@ function App() {
             <div className="text-center mb-3 border-bottom pb-2">
               <h4>📖 Livro de Receitas</h4>
             </div>
-            <ul className="list-unstyled" style={{ lineHeight: '2' }}>
-              <li>
-                <strong>Mocha:</strong> Cafe, Chocolate, Leite
+            <ul className="list-unstyled receitas-lista">
+              <li className="receita-item">
+                <strong>Mocha</strong>
+                <span>Café, Chocolate e Leite</span>
               </li>
-              <li>
-                <strong>Cappuccino:</strong> Cafe, Leite, Espuma
+              <li className="receita-item">
+                <strong>Cappuccino</strong>
+                <span>Café, Leite e Espuma</span>
               </li>
-              <li>
-                <strong>Latte:</strong> Cafe, Leite, Baunilha
+              <li className="receita-item">
+                <strong>Latte</strong>
+                <span>Café, Leite e Baunilha</span>
               </li>
-              <li>
-                <strong>Café c/ Chantilly:</strong> Cafe, Chantilly, Caramelo
+              <li className="receita-item">
+                <strong>Café com Chantilly</strong>
+                <span>Café, Chantilly e Caramelo</span>
               </li>
             </ul>
             <button
@@ -458,7 +463,6 @@ function App() {
             <button
               onClick={atenderProximo}
               className="btn btn-swing btn-blue w-100 p-3 shadow-sm"
-              style={{ borderRadius: '16px' }}
             >
               Atender Próximo Cliente ➔
             </button>
