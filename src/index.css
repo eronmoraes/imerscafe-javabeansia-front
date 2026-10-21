@@ -1,117 +1,498 @@
-/* --- MODERN COZY IA CARD --- */
+/* =========================================================
+   JAVA BEANS — estilos globais e componentes da interface
+   main.jsx importa este arquivo depois do Bootstrap.
+   ========================================================= */
+
+:root {
+  font-family: "Courier New", Courier, monospace;
+  color: #252525;
+  background: #4a1511;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  --jb-red: #8b2b25;
+  --jb-red-dark: #4a1511;
+  --jb-gray: #a0a0a0;
+  --jb-panel: #e0e0e0;
+  --jb-border: #555;
+  --jb-blue: #176da5;
+  --jb-blue-hover: #125783;
+  --jb-green: #187a43;
+  --jb-green-hover: #126235;
+  --jb-danger: #b83228;
+  --jb-danger-hover: #92251e;
+  --jb-space-1: 0.25rem;
+  --jb-space-2: 0.5rem;
+  --jb-space-3: 0.75rem;
+  --jb-space-4: 1rem;
+  --jb-space-5: 1.5rem;
+  --jb-space-6: 2rem;
+}
+
+html {
+  min-width: 320px;
+  min-height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  padding: clamp(12px, 3vw, 32px);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  background: radial-gradient(circle, var(--jb-red) 0%, var(--jb-red-dark) 100%);
+  font-family: "Courier New", Courier, monospace;
+  color: #252525;
+  line-height: 1.5;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid #ffbf47;
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px #222;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: inherit;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+h1 { font-size: clamp(1.5rem, 4vw, 2rem); }
+h2 { font-size: clamp(1.3rem, 3.5vw, 1.7rem); }
+h3 { font-size: clamp(1.15rem, 3vw, 1.4rem); }
+h4 { font-size: 1.1rem; }
+h5,
+h6 { font-size: 1rem; }
+
+p,
+li,
+label,
+small {
+  overflow-wrap: anywhere;
+}
+
+/* Janela principal do simulador */
+.simulador-card {
+  width: min(100%, 650px);
+  max-width: 100%;
+  min-width: 0;
+  margin: auto;
+  background: var(--jb-panel);
+  border: 2px solid var(--jb-gray);
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.6);
+  overflow: visible;
+}
+
+/* Cabeçalho e seus elementos, correspondentes ao App.jsx */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--jb-space-2) var(--jb-space-4);
+  min-width: 0;
+  padding: 12px 16px;
+  background: var(--jb-gray);
+  color: #222;
+  border-bottom: 2px solid #fff;
+  font-weight: 700;
+}
+
+.header-brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 12px;
+  min-width: 0;
+}
+
+.header-product,
+.header-screen,
+.header-score {
+  overflow-wrap: anywhere;
+}
+
+.header-product {
+  font-size: 1rem;
+}
+
+.header-screen {
+  padding: 2px 6px;
+  border: 1px solid #666;
+  background: #e8e8e8;
+  font-size: 0.78rem;
+}
+
+.header-score {
+  flex: 0 1 auto;
+  margin-left: auto;
+  text-align: right;
+  font-size: 0.95rem;
+}
+
+/* Conteúdo interno */
+.body-p {
+  min-width: 0;
+  padding: clamp(16px, 4vw, 30px);
+  background: #fff;
+}
+
+.body-p img,
+.body-p video,
+.body-p canvas {
+  max-width: 100%;
+  height: auto;
+}
+
+.body-p p {
+  line-height: 1.55;
+}
+
+.row,
+[class*="col-"] {
+  min-width: 0;
+}
+
+/* Botões Java Beans; classes combinadas com Bootstrap */
+.btn-swing,
+.btn-blue,
+.btn-green,
+.btn-red {
+  min-height: 40px;
+  padding: 0.55rem 0.85rem;
+  border: 2px solid var(--jb-border);
+  border-radius: 0;
+  font-family: inherit;
+  font-weight: 700;
+  line-height: 1.25;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 120ms ease,
+    box-shadow 120ms ease,
+    transform 120ms ease;
+}
+
+.btn-blue {
+  background: var(--jb-blue);
+  color: #fff;
+}
+
+.btn-blue:hover,
+.btn-blue:focus-visible {
+  background: var(--jb-blue-hover);
+  color: #fff;
+}
+
+.btn-green {
+  background: var(--jb-green);
+  color: #fff;
+}
+
+.btn-green:hover,
+.btn-green:focus-visible {
+  background: var(--jb-green-hover);
+  color: #fff;
+}
+
+.btn-red {
+  background: var(--jb-danger);
+  color: #fff;
+}
+
+.btn-red:hover,
+.btn-red:focus-visible {
+  background: var(--jb-danger-hover);
+  color: #fff;
+}
+
+.btn-swing:active,
+.btn-blue:active,
+.btn-green:active,
+.btn-red:active {
+  transform: translateY(1px);
+}
+
+.btn-swing:disabled,
+.btn-blue:disabled,
+.btn-green:disabled,
+.btn-red:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* Painel de destaque */
+.painel-vermelho {
+  margin-bottom: var(--jb-space-5);
+  padding: var(--jb-space-5);
+  border: 2px solid var(--jb-red-dark);
+  background: var(--jb-red);
+  color: #fff;
+  text-align: center;
+}
+
+/* Diagnóstico / console */
+.console-box {
+  padding: var(--jb-space-4);
+  background: #1e1e1e;
+  color: #00ff00;
+  font-family: "Courier New", Courier, monospace;
+  text-align: left;
+  border: 2px solid #555;
+  border-radius: 2px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+}
+
+/* Grade de ingredientes: className="ingredientes-grid" no JSX */
+.ingredientes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--jb-space-2);
+  width: 100%;
+  margin: 15px 0;
+}
+
+.ingredientes-grid > .ingrediente-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 0.5rem;
+  overflow-wrap: anywhere;
+  white-space: normal;
+  font-size: 0.85rem;
+}
+
+.ingrediente-btn.selecionado,
+.ingrediente-btn[aria-pressed="true"] {
+  background: var(--jb-green);
+  color: #fff;
+  border-color: #104f2c;
+}
+
+.ingrediente-btn.selecionado::before,
+.ingrediente-btn[aria-pressed="true"]::before {
+  content: "✓ ";
+  flex: 0 0 auto;
+  margin-right: 3px;
+}
+
+/* Receitas: classes aplicadas à lista no App.jsx */
+.receitas-lista {
+  display: grid;
+  gap: var(--jb-space-3);
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  line-height: 1.5;
+}
+
+.receita-item {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding: var(--jb-space-3);
+  border: 1px solid #aaa;
+  background: #f7f7f7;
+}
+
+.receita-item strong {
+  color: var(--jb-red-dark);
+}
+
+.receita-item span {
+  overflow-wrap: anywhere;
+}
+
+/* Feedback da IA — alinhado à identidade visual retrô */
 .ia-feedback-container {
-  perspective: 1000px;
+  min-width: 0;
+  perspective: none;
 }
 
 .ia-feedback-card {
-  background: #ffffff;
-  border: 1px solid #e2e8f0;
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.04), 
-              0 8px 10px -6px rgba(0, 0, 0, 0.04);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  min-width: 0;
+  padding: clamp(16px, 3vw, 24px);
+  background: #fff;
+  border: 2px solid #777;
+  border-radius: 4px;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.16);
+  transition: box-shadow 160ms ease;
+  overflow-wrap: anywhere;
 }
 
 .ia-feedback-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 
-              0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  transform: none;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
 }
 
 .ia-status-badge {
   display: inline-flex;
+  flex-wrap: wrap;
   align-items: center;
-  padding: 4px 12px;
-  background: #f1f5f9;
-  color: #64748b;
-  border-radius: 100px;
-  font-size: 0.7rem;
+  gap: 8px;
+  max-width: 100%;
+  margin-bottom: var(--jb-space-4);
+  padding: 4px 10px;
+  background: #e8e8e8;
+  color: #333;
+  border: 1px solid #777;
+  border-radius: 2px;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  margin-bottom: 1rem;
 }
 
 .ia-pulse-dot {
+  flex: 0 0 8px;
   width: 8px;
   height: 8px;
-  background-color: #3b82f6;
+  background-color: var(--jb-blue);
   border-radius: 50%;
-  margin-right: 8px;
   animation: pulse 2s infinite;
 }
 
 @keyframes pulse {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-  70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(23, 109, 165, 0.55);
+  }
+
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 8px rgba(23, 109, 165, 0);
+  }
+
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(23, 109, 165, 0);
+  }
 }
 
 .ia-feedback-text {
-  color: #334155;
-  font-size: 1.1rem;
-  line-height: 1.7;
+  min-width: 0;
+  color: #252525;
+  font-size: 1rem;
+  line-height: 1.65;
   font-weight: 500;
-}
-/* ...código existente do projeto... */
-body { 
-  background: radial-gradient(circle, #8b2b25 0%, #4a1511 100%); /* O vermelho escuro do vídeo */
-  min-height: 100vh; 
-  display: flex; 
-  align-items: center; 
-  justify-content: center; 
-  font-family: 'Courier New', Courier, monospace; /* Trazendo a vibe de sistema antigo/Swing */
-  color: #333;
-  margin: 0;
+  overflow-wrap: anywhere;
 }
 
-.simulador-card { 
-  border: 2px solid #a0a0a0; 
-  border-radius: 5px; 
-  box-shadow: 5px 5px 15px rgba(0,0,0,0.6); 
-  width: 100%; 
-  max-width: 650px; 
-  background-color: #e0e0e0; /* O cinza das janelas do Java */
-  overflow: hidden; 
+/* Mantém o ícone do feedback visualmente consistente */
+.ia-feedback-card .rounded-4 {
+  border-radius: 4px !important;
 }
 
-.header { 
-  background: #a0a0a0; 
-  color: #333; 
-  padding: 10px 20px; 
-  border-bottom: 2px solid #fff;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
+.ia-feedback-card .border-top {
+  gap: var(--jb-space-3);
+  flex-wrap: wrap;
 }
 
-.body-p { padding: 30px; background: #fff; }
+@media (max-width: 600px) {
+  body {
+    padding: 10px;
+  }
 
-/* Botões baseados no seu vídeo */
-.btn-swing { border-radius: 0; font-weight: bold; border: 2px solid #555; text-transform: uppercase; }
-.btn-blue { background: #3498db; color: white; }
-.btn-blue:hover { background: #2980b9; color: white; }
-.btn-green { background: #2ecc71; color: white; }
-.btn-green:hover { background: #27ae60; color: white; }
-.btn-red { background: #e74c3c; color: white; }
-.btn-red:hover { background: #c0392b; color: white; }
+  .simulador-card {
+    width: 100%;
+    margin: 0 auto;
+  }
 
-.painel-vermelho {
-  background: #8b2b25;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  border: 2px solid #4a1511;
-  margin-bottom: 20px;
+  .header {
+    justify-content: flex-start;
+    padding: 10px 12px;
+  }
+
+  .header-score {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .body-p {
+    padding: 16px;
+  }
+
+  .painel-vermelho {
+    padding: 14px;
+  }
+
+  .ingredientes-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .ia-feedback-text {
+    font-size: 0.95rem;
+  }
 }
 
-.console-box {
-  background: #1e1e1e;
-  color: #00ff00;
-  padding: 15px;
-  font-family: monospace;
-  text-align: left;
-  border-radius: 5px;
-  white-space: pre-wrap;
+@media (max-width: 360px) {
+  .ingredientes-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .header {
+    align-items: flex-start;
+  }
+
+  .header-score {
+    width: 100%;
+  }
+
+  .btn-swing,
+  .btn-blue,
+  .btn-green,
+  .btn-red {
+    overflow-wrap: anywhere;
+  }
+}
+
+@media (max-height: 650px) {
+  body {
+    align-items: flex-start;
+  }
+
+  .simulador-card {
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
